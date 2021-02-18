@@ -39,10 +39,13 @@ class ChildTodoRepository(
     /**
      * 子Todo更新.
      */
-    fun updateBy(todo: ChildTodoEntity): Int {
+    fun updateBy(todo: ChildTodoEntity, isSelective: Boolean): Int {
         versionCheck(todo.version, todo.todoId)
         todo.versionUp()
-        return tChildTodoMapper.updateByPrimaryKeySelective(convertToRecord(todo))
+        return if (isSelective)
+            tChildTodoMapper.updateByPrimaryKeySelective(convertToRecord(todo))
+        else
+            tChildTodoMapper.updateByPrimaryKey(convertToRecord(todo))
     }
 
     /**

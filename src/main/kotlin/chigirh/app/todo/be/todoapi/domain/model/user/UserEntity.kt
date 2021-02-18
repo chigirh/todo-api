@@ -22,7 +22,6 @@ class UserEntity(
     override var updatedAt: UserId? = null,
     /** version */
     override var version: Version = Version()
-
 ) : VersionableEntityBase(
     createDate,
     createAt,

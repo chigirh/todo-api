@@ -25,9 +25,13 @@ class TodoRepositoryImpl(
 
     override fun insertBy(todo: ChildTodoEntity) = childTodoRepository.insertBy(todo)
 
-    override fun updateBy(todo: ParentTodoEntity) = parentTodoRepository.updateBy(todo)
+    override fun updateBySelective(todo: ParentTodoEntity) = parentTodoRepository.updateBy(todo, true)
 
-    override fun updateBy(todo: ChildTodoEntity) = childTodoRepository.updateBy(todo)
+    override fun updateBySelective(todo: ChildTodoEntity) = childTodoRepository.updateBy(todo, true)
+
+    override fun updateBy(todo: ParentTodoEntity) = parentTodoRepository.updateBy(todo, false)
+
+    override fun updateBy(todo: ChildTodoEntity) = childTodoRepository.updateBy(todo, false)
 
     override fun deleteBy(todo: ParentTodoEntity) = parentTodoRepository.deleteBy(todo)
 
@@ -67,3 +71,4 @@ class TodoRepositoryImpl(
     override fun selectByForChildTodoList(parentTodo: ParentTodoEntity) =
         childTodoRepository.selectBy(parentTodo.todoId)
 }
+

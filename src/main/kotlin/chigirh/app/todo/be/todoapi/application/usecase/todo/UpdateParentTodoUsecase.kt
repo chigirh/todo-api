@@ -10,13 +10,12 @@ import org.springframework.stereotype.Component
 class UpdateParentTodoUsecase(
     val todoRepository: TodoRepository
 ) : Usecase() {
-
     operator fun invoke(
         userId: UserId,
         parentTodoEntity: ParentTodoEntity
     ) = parentTodoEntity.run {
         update(userId)
-        todoRepository.updateBy(this)
+        todoRepository.updateBySelective(this)
     }
 
 }

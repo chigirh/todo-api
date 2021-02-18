@@ -8,6 +8,7 @@ import chigirh.app.todo.be.todoapi.oas3.model.TodoDetail
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
+import java.time.ZoneOffset
 
 @Component
 class ParentTodoConverter(
@@ -20,8 +21,8 @@ class ParentTodoConverter(
             detail = TodoDetail(
                 todoName = it.todoName,
                 isFinished = it.isFinished,
-                limitDate = it.limitDate?.let { OffsetDateTime.from(it) },
-                finishDate = it.finishDate?.let { OffsetDateTime.from(it) },
+                limitDate = it.limitDate?.let { OffsetDateTime.of(it, ZoneOffset.UTC) },
+                finishDate = it.finishDate?.let { OffsetDateTime.of(it, ZoneOffset.UTC) },
             ),
             children = it.children.map(childTodoConverter::toResponse).toList()
         )
