@@ -26,7 +26,6 @@ class ParentTodoRepository(
             updatedDate = it.updatedDate,
             updatedAt = it.updatedAt?.let { UserId(it) },
             version = Version(it.version)
-
         )
     }
 
@@ -38,10 +37,13 @@ class ParentTodoRepository(
     /**
      * 親Todo更新.
      */
-    fun updateBy(todo: ParentTodoEntity): Int {
+    fun updateBy(todo: ParentTodoEntity, isSelective: Boolean): Int {
         versionCheck(todo.version, todo.todoId);
         todo.versionUp();
-        return tParentTodoMapper.updateByPrimaryKeySelective(convertToRecord(todo));
+        return if (isSelective)
+            tParentTodoMapper.updateByPrimaryKeySelective(convertToRecord(todo))
+        else
+            tParentTodoMapper.updateByPrimaryKey(convertToRecord(todo))
     }
 
     /**
@@ -64,7 +66,6 @@ class ParentTodoRepository(
             updatedDate = it.updatedDate,
             updatedAt = it.updatedAt?.v,
             version = it.version.v
-
         )
     }
 }

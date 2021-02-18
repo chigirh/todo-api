@@ -16,14 +16,14 @@ class ControllerLogInterceptor {
     fun controllerStartLog(joinPoint: JoinPoint) {
         val string = joinPoint.toString()
         val args: String = Arrays.toString(joinPoint.args)
-        logger.info("Start {}, args: {}", string, args)
+        logger.info("Start {}, args: {}", string, args.toString())
     }
 
     @AfterReturning("within(chigirh.app.todo.be.todoapi.oas3.controller.*Controller)")
     fun controllerEndLog(joinPoint: JoinPoint) {
         val string = joinPoint.toString()
         val args: String = Arrays.toString(joinPoint.args)
-        logger.info("End {}, args: {}", string, args)
+        logger.info("End {}, args: {}", string, args.toString())
     }
 
     companion object {

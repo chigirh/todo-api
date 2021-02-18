@@ -13,7 +13,7 @@ class ParentTodoEntity(
     /** 完了フラグ */
     override var isFinished: Boolean,
     /** 期限 */
-    override var limitDate: LocalDateTime? = null,
+    override var limitDate: LocalDateTime? = LocalDateTime.MAX,
     /** 完了日 */
     override var finishDate: LocalDateTime? = null,
     /** 作成日 */

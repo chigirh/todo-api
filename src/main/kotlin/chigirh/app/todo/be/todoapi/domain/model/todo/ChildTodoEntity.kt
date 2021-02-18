@@ -13,7 +13,7 @@ class ChildTodoEntity(
     /** 完了フラグ */
     override var isFinished: Boolean,
     /** 期限 */
-    override var limitDate: LocalDateTime? = null,
+    override var limitDate: LocalDateTime? = LocalDateTime.MAX,
     /** 完了日 */
     override var finishDate: LocalDateTime? = null,
     /** 作成日 */
@@ -28,7 +28,6 @@ class ChildTodoEntity(
     override var version: Version = Version(),
     /** 親TodoID */
     val parentTodoId: TodoId
-
 ) : TodoEntity(
     todoId,
     todoName,

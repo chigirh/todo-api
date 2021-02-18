@@ -32,10 +32,20 @@ interface TodoRepository {
     /**
      * 親Todo更新.
      */
-    fun updateBy(todo: ParentTodoEntity): Int
+    fun updateBySelective(todo: ParentTodoEntity): Int
 
     /**
      * 子Todo更新.
+     */
+    fun updateBySelective(todo: ChildTodoEntity): Int
+
+    /**
+     * 親Todo更新(NULL項目も更新).
+     */
+    fun updateBy(todo: ParentTodoEntity): Int
+
+    /**
+     * 子Todo更新(NULL項目も更新).
      */
     fun updateBy(todo: ChildTodoEntity): Int
 
