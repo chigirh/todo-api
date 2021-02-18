@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="tododb" targetRuntime="MyBatis3Kotlin">
+
+        <!-- プラグイン -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>
+        <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin"/>
+        <plugin type="org.mybatis.generator.plugins.FluentBuilderMethodsPlugin"/>
+
+        <!-- JDBC接続 -->
+        <jdbcConnection
+                connectionURL="jdbc:postgresql://localhost:5432/todo_api"
+                driverClass="org.postgresql.Driver"
+                password="root"
+                userId="root" />
+
+        <javaTypeResolver>
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
+
+        <!-- モデル -->
+        <javaModelGenerator
+                targetPackage="chigirh.app.todo.be.todoapi.infra.dto"
+                targetProject="src/gen/kotlin">
+        </javaModelGenerator>
+
+        <!-- mapperインタフェース -->
+        <javaClientGenerator
+                targetPackage="chigirh.app.todo.be.todoapi.infra.mapper"
+                targetProject="src/gen/kotlin">
+        </javaClientGenerator>
+
+        <!-- 生成対象テーブル -->
+        <table tableName="m_user"></table>
+        <table tableName="t_parent_todo"></table>
+        <table tableName="t_child_todo"></table>
+    </context>
+</generatorConfiguration>

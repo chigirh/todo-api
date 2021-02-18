@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chigirh.app.todo.be.todoapi.infra.mapper.MUserSelectMapper">
+
+    <select id="selectByKey" resultType="MUserRecordResult">
+        SELECT
+        user_id,
+        password,
+        user_name,
+        create_date,
+        create_at,
+        updated_date,
+        updated_at,
+        version
+        FROM m_user
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="listBy" resultType="MUserRecordResult">
+        SELECT
+        user_id,
+        password,
+        user_name,
+        create_date,
+        create_at,
+        updated_date,
+        updated_at,
+        version
+        FROM(
+        SELECT
+        user_id,
+        password,
+        user_name,
+        create_date,
+        create_at,
+        updated_date,
+        updated_at,
+        version,
+        ROW_NUMBER() OVER (ORDER BY user_id ASC) AS ROW_NUM
+        FROM m_user
+        ) AS m_user
+        WHERE #{offset} + 1 <![CDATA[ <= ]]> ROW_NUM
+        AND ROW_NUM <![CDATA[ <= ]]> #{offset} + #{limit}
+    </select>
+
+    <select id="selectCount" resultType="Int">
+        SELECT
+        COUNT(*)
+        FROM m_user
+    </select>
+
+    <select id="selectMaxId" resultType="Int">
+        SELECT
+        COALESCE(MAX(TO_NUMBER(RIGHT(user_id, 5),'99999')),0)
+        FROM m_user
+    </select>
+
+</mapper>

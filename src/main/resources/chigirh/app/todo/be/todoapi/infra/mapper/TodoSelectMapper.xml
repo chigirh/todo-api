@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chigirh.app.todo.be.todoapi.infra.mapper.TodoSelectMapper">
+
+    <select id="selectByParentTodoId" resultType="TParentTodoRecordResult">
+        SELECT
+        p_todo_id,
+        p_todo_name,
+        is_finished,
+        limit_date,
+        finish_date,
+        create_date,
+        create_at,
+        updated_date,
+        updated_at,
+        version
+        FROM t_parent_todo
+        WHERE p_todo_id = #{todoId}
+    </select>
+
+    <select id="selectByChildTodoId" resultType="TChildTodoRecordResult">
+        SELECT
+        c_todo_id,
+        c_todo_name,
+        is_finished,
+        p_todo_id,
+        limit_date,
+        finish_date,
+        create_date,
+        create_at,
+        updated_date,
+        updated_at,
+        version
+        FROM t_child_todo
+        WHERE c_todo_id = #{todoId}
+    </select>
+
+    <select id="selectByUserId" resultType="TodoRecordResult">
+        SELECT
+        c_todo_id,
+        c_todo_name,
+        c_is_finished,
+        c_limit_date,
+        c_finish_date,
+        c_version,
+        p_todo_id,
+        p_todo_name,
+        p_is_finished,
+        p_limit_date,
+        p_finish_date,
+        p_version
+        FROM (
+        SELECT
+        c.c_todo_id,
+        c.c_todo_name,
+        c.is_finished as c_is_finished,
+        c.limit_date as c_limit_date,
+        c.finish_date as c_finish_date,
+        c.version as c_version,
+        p.p_todo_id,
+        p.p_todo_name,
+        p.is_finished as p_is_finished,
+        p.limit_date as p_limit_date,
+        p.finish_date as p_finish_date,
+        p.version as p_version,
+        ROW_NUMBER() OVER (ORDER BY p.create_date DESC,c.create_date DESC) AS ROW_NUM
+        FROM t_child_todo c INNER JOIN t_parent_todo p
+        ON c.p_todo_id = p.p_todo_id
+        WHERE p.create_at = #{userId}
+        AND c.create_at = #{userId}
+        ) AS MERGE_TODO
+        WHERE #{offset} + 1 <![CDATA[ <= ]]> ROW_NUM
+        AND ROW_NUM <![CDATA[ <= ]]> #{offset} + #{limit}
+    </select>
+
+    <select id="selectCount" resultType="Int">
+        SELECT
+        COUNT(*)
+        FROM t_parent_todo
+        WHERE create_at = #{userId}
+    </select>
+
+    <select id="selectByParentTodoIdForChildList" resultType="TChildTodoRecordResult">
+        SELECT
+        c_todo_id,
+        c_todo_name,
+        is_finished,
+        p_todo_id,
+        limit_date,
+        finish_date,
+        create_date,
+        create_at,
+        updated_date,
+        updated_at,
+        version
+        FROM t_child_todo
+        WHERE p_todo_id = #{pTodoId}
+    </select>
+
+</mapper>

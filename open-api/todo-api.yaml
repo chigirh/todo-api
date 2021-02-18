@@ -1,0 +1,663 @@
+openapi: 3.0.0
+info:
+  title: todo-api
+  version: '1.0'
+  description: This is "Todo Application" backend API
+servers:
+  - url: 'http://locahost:8080'
+    description: ''
+paths:
+  /user/get:
+    post:
+      summary: ''
+      operationId: post-user-get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: ユーザー情報を取得
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      parameters:
+        - schema:
+            type: string
+            example: '^U[0-9]{5}'
+            minLength: 6
+            maxLength: 6
+          in: header
+          name: x-user-id
+          required: true
+          description: ユーザーID
+  /user/create:
+    post:
+      summary: ''
+      operationId: post-user-create
+      responses:
+        '200':
+          description: OK
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: ユーザー登録
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDetail'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: ユーザーを登録
+  /user/update:
+    post:
+      summary: ''
+      operationId: post-user-updated
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: ユーザー更新
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: ユーザーを更新
+      parameters:
+        - schema:
+            type: string
+            example: '^U[0-9]{5}'
+            minLength: 6
+            maxLength: 6
+          in: header
+          name: x-user-id
+          required: true
+          description: ユーザーID
+    parameters: [ ]
+  /todo/list:
+    post:
+      summary: ''
+      operationId: post-todo-list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nextPage:
+                    $ref: '#/components/schemas/Pageable'
+                  todos:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ParentTodo'
+                required:
+                  - nextPage
+                  - todos
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: ユーザーのTodoリストを取得
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  $ref: '#/components/schemas/User'
+                pageable:
+                  $ref: '#/components/schemas/Pageable'
+              required:
+                - user
+                - pageable
+      parameters:
+        - schema:
+            type: string
+            example: '^U[0-9]{5}'
+            minLength: 6
+            maxLength: 6
+          in: header
+          name: x-user-id
+          required: true
+          description: ユーザーID
+  /todo/p/create:
+    post:
+      summary: ''
+      operationId: post-todo-p-create
+      responses:
+        '200':
+          description: OK
+      description: 親Todo作成
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoDetail'
+      parameters:
+        - schema:
+            type: string
+            example: '^U[0-9]{5}'
+            minLength: 6
+            maxLength: 6
+          in: header
+          name: x-user-id
+          required: true
+          description: ユーザーID
+    parameters: [ ]
+  /todo/c/create:
+    post:
+      summary: ''
+      operationId: post-todo-c-create
+      responses:
+        '200':
+          description: OK
+      description: 子Todo作成
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                detail:
+                  $ref: '#/components/schemas/TodoDetail'
+                parentTodoId:
+                  type: string
+                  minLength: 36
+                  maxLength: 36
+              required:
+                - detail
+                - parentTodoId
+      parameters:
+        - schema:
+            type: string
+            example: '^U[0-9]{5}'
+            minLength: 6
+            maxLength: 6
+          in: header
+          name: x-user-id
+          required: true
+          description: ユーザーID
+    parameters: [ ]
+  /todo/p/update:
+    post:
+      summary: ''
+      operationId: post-todo-p-update
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: |-
+        親Todoの更新
+        完了フラグの設定項目は無視されるため、完了フラグの更新を行うことはできない。
+        完了フラグの更新は/todo/finishから行う。
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParentTodo'
+      parameters:
+        - schema:
+            type: string
+            example: '^U[0-9]{5}'
+            minLength: 6
+            maxLength: 6
+          in: header
+          name: x-user-id
+          required: true
+          description: ユーザーID
+    parameters: [ ]
+  /todo/c/update:
+    post:
+      summary: ''
+      operationId: post-todo-c-update
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: |-
+        子Todoの更新
+        完了フラグの設定項目は無視されるため、完了フラグの更新を行うことはできない。
+        完了フラグの更新は/todo/finishから行う。
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChildTodo'
+      parameters:
+        - schema:
+            type: string
+            example: '^U[0-9]{5}'
+            minLength: 6
+            maxLength: 6
+          in: header
+          name: x-user-id
+          required: true
+          description: ユーザーID
+    parameters: [ ]
+  /todo/finish:
+    post:
+      summary: ''
+      operationId: post-todo-finish
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                todoId:
+                  type: string
+                  minLength: 36
+                  maxLength: 36
+                todoType:
+                  $ref: '#/components/schemas/TodoType'
+                isFinished:
+                  type: boolean
+              required:
+                - todoId
+                - todoType
+                - isFinished
+      parameters:
+        - schema:
+            type: string
+            example: '^U[0-9]{5}'
+            minLength: 6
+            maxLength: 6
+          in: header
+          name: x-user-id
+          required: true
+          description: ユーザーID
+      description: |-
+        Todoの完了フラグを更新する。
+        親Todoが完了になった場合は、紐づく子Todoも全て完了済みとする。
+        子Todoが非完了になった場合、親Todoが完了になっていれば、親Todoも非完了に更新する。
+    parameters: [ ]
+  /todo/p/delete:
+    post:
+      summary: ''
+      operationId: post-todo-p-delete
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: |-
+        親Todoの削除
+        親Todoを削除した場合は紐づく子Todoも全て削除する。
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParentTodo'
+      parameters:
+        - schema:
+            type: string
+            example: '^U[0-9]{5}'
+            minLength: 6
+            maxLength: 6
+          in: header
+          name: x-user-id
+          required: true
+          description: ユーザーID
+    parameters: [ ]
+  /todo/c/delete:
+    post:
+      summary: ''
+      operationId: post-todo-c-delete
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: 子Todoの削除
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChildTodo'
+      parameters:
+        - schema:
+            type: string
+            example: '^U[0-9]{5}'
+            minLength: 6
+            maxLength: 6
+          in: header
+          name: x-user-id
+          required: true
+          description: ユーザーID
+    parameters: [ ]
+  /user/delete:
+    post:
+      summary: ''
+      operationId: post-user-delete
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: ユーザー削除
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: ユーザーを削除
+      parameters:
+        - schema:
+            type: string
+            example: '^U[0-9]{5}'
+            minLength: 6
+            maxLength: 6
+          in: header
+          name: x-user-id
+          required: true
+          description: ユーザーID
+  /user/list:
+    post:
+      summary: ''
+      operationId: post-user-list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nextPage:
+                    $ref: '#/components/schemas/Pageable'
+                  users:
+                    type: array
+                    items:
+                      $ref: ''
+                required:
+                  - nextPage
+      description: ユーザー一覧を取得
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pageable:
+                  $ref: '#/components/schemas/Pageable'
+              required:
+                - pageable
+      parameters:
+        - schema:
+            type: string
+            example: '^U[0-9]{5}'
+            minLength: 6
+            maxLength: 6
+          in: header
+          name: x-user-id
+          required: true
+          description: ユーザーID
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      x-examples:
+        ユーザー情報:
+          userId: string
+          userName: string
+      properties:
+        userId:
+          type: string
+          pattern: '^U[0-9]{5}$'
+          minLength: 6
+          maxLength: 6
+        detail:
+          $ref: '#/components/schemas/UserDetail'
+        version:
+          type: integer
+          minimum: 1
+      required:
+        - userId
+        - version
+    UserDetail:
+      title: UserDetail
+      type: object
+      properties:
+        userName:
+          type: string
+          maxLength: 20
+      required:
+        - userName
+    TodoDetail:
+      title: TodoDetail
+      type: object
+      x-examples:
+        example-1:
+          tpdoId: stringstringstringstringstringstring
+          todoName: string
+          isFinished: true
+          limitDate: stringstri
+          finishDate: stringstri
+          version: 1
+          children:
+            - tpdoId: stringstringstringstringstringstring
+              todoName: string
+              isFinished: true
+              limitDate: stringstri
+              finishDate: stringstri
+              version: 1
+              children:
+                - { }
+      properties:
+        todoName:
+          type: string
+          maxLength: 20
+        isFinished:
+          type: boolean
+        limitDate:
+          type: string
+          format: date-time
+        finishDate:
+          type: string
+          format: date-time
+      required:
+        - todoName
+        - isFinished
+    Error:
+      title: Error
+      type: object
+      properties:
+        errorCode:
+          description: エラーコード
+          type: string
+        details:
+          type: array
+          description: エラー詳細
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+      required:
+        - errorCode
+        - details
+    ErrorDetail:
+      title: ErrorDetail
+      type: object
+      properties:
+        target:
+          type: string
+          description: エラー対象
+        description:
+          type: string
+          description: エラーの説明
+      required:
+        - target
+        - description
+    TodoType:
+      title: TodoType
+      type: object
+      properties:
+        type:
+          type: string
+          pattern: '[12]'
+          description: '"1":親,"2":子'
+      required:
+        - type
+    Pageable:
+      title: Pageable
+      type: object
+      properties:
+        offset:
+          type: integer
+          default: '0'
+          minimum: 0
+        limit:
+          type: integer
+          default: 10
+          minimum: 1
+        total:
+          type: integer
+          minimum: 0
+      required:
+        - offset
+        - limit
+    ParentTodo:
+      title: ParentTodo
+      type: object
+      properties:
+        todoId:
+          type: string
+          minLength: 36
+          maxLength: 36
+        detail:
+          $ref: '#/components/schemas/TodoDetail'
+        version:
+          type: integer
+          minimum: 1
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChildTodo'
+      required:
+        - todoId
+        - detail
+        - version
+        - children
+    ChildTodo:
+      title: ChildTodo
+      type: object
+      properties:
+        todoId:
+          type: string
+          minLength: 36
+          maxLength: 36
+        detail:
+          $ref: '#/components/schemas/TodoDetail'
+        version:
+          type: integer
+          minimum: 1
+        parentTodoId:
+          type: string
+          minLength: 36
+          maxLength: 36
+      required:
+        - todoId
+        - detail
+        - version
+        - parentTodoId
+  securitySchemes: { }
+security: [ ]
