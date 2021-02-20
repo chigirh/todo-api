@@ -29,7 +29,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              type: object
+              properties:
+                userId:
+                  type: string
+                  pattern: '^U[0-9]{5}$'
+                  minLength: 6
+                  maxLength: 6
+              required:
+                - userId
       parameters:
         - schema:
             type: string
@@ -111,14 +119,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  nextPage:
-                    $ref: '#/components/schemas/Pageable'
+                  pageable:
+                    $ref: '#/components/schemas/PageableResponse'
                   todos:
                     type: array
                     items:
                       $ref: '#/components/schemas/ParentTodo'
                 required:
-                  - nextPage
+                  - pageable
                   - todos
         '404':
           description: Not Found
@@ -136,7 +144,7 @@ paths:
                 user:
                   $ref: '#/components/schemas/User'
                 pageable:
-                  $ref: '#/components/schemas/Pageable'
+                  $ref: '#/components/schemas/PageableRequest'
               required:
                 - user
                 - pageable
@@ -463,14 +471,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  nextPage:
-                    $ref: '#/components/schemas/Pageable'
+                  pageable:
+                    $ref: '#/components/schemas/PageableResponse'
                   users:
                     type: array
                     items:
                       $ref: ''
                 required:
-                  - nextPage
+                  - pageable
       description: ユーザー一覧を取得
       requestBody:
         content:
@@ -479,7 +487,7 @@ paths:
               type: object
               properties:
                 pageable:
-                  $ref: '#/components/schemas/Pageable'
+                  $ref: '#/components/schemas/PageableRequest'
               required:
                 - pageable
       parameters:
@@ -597,24 +605,6 @@ components:
           description: '"1":親,"2":子'
       required:
         - type
-    Pageable:
-      title: Pageable
-      type: object
-      properties:
-        offset:
-          type: integer
-          default: '0'
-          minimum: 0
-        limit:
-          type: integer
-          default: 10
-          minimum: 1
-        total:
-          type: integer
-          minimum: 0
-      required:
-        - offset
-        - limit
     ParentTodo:
       title: ParentTodo
       type: object
@@ -659,5 +649,38 @@ components:
         - detail
         - version
         - parentTodoId
+    PageableRequest:
+      title: PageableRequest
+      type: object
+      properties:
+        offset:
+          type: integer
+          default: '0'
+          minimum: 0
+        limit:
+          type: integer
+          default: 10
+          minimum: 1
+      required:
+        - offset
+        - limit
+    PageableResponse:
+      type: object
+      properties:
+        offset:
+          type: integer
+          default: '0'
+          minimum: 0
+        limit:
+          type: integer
+          default: 10
+          minimum: 1
+        total:
+          type: integer
+          minimum: 0
+      required:
+        - offset
+        - limit
+        - total
   securitySchemes: { }
 security: [ ]

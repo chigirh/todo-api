@@ -2,15 +2,10 @@ package chigirh.app.todo.be.todoapi.web.api.controller
 
 import chigirh.app.todo.be.todoapi.application.usecase.user.*
 import chigirh.app.todo.be.todoapi.domain.constant.UserConstant
-import chigirh.app.todo.be.todoapi.domain.exception.NotFoundException
 import chigirh.app.todo.be.todoapi.domain.model.vo.UserId
 import chigirh.app.todo.be.todoapi.oas3.controller.UserApiDelegate
-import chigirh.app.todo.be.todoapi.oas3.model.InlineObject3
-import chigirh.app.todo.be.todoapi.oas3.model.InlineResponse2001
-import chigirh.app.todo.be.todoapi.oas3.model.User
-import chigirh.app.todo.be.todoapi.oas3.model.UserDetail
+import chigirh.app.todo.be.todoapi.oas3.model.*
 import chigirh.app.todo.be.todoapi.web.api.converter.UserConverter
-import chigirh.app.todo.be.todoapi.web.api.helper.PageableHelper
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
@@ -25,8 +20,7 @@ class UserApiDelegateImpl(
     val updateUserUsecase: UpdateUserUsecase,
     val deleteUserUsecase: DeleteUserUsecase,
     val listUserUsecase: ListUserUsecase,
-    val getUserUsecase: GetUserUsecase,
-    val pageableHelper: PageableHelper
+    val getUserUsecase: GetUserUsecase
 ) : UserApiDelegate {
     /**
      * ユーザー登録.
@@ -43,20 +37,24 @@ class UserApiDelegateImpl(
      * ユーザー削除.
      */
     override fun postUserDelete(xUserId: kotlin.String, user: User?): ResponseEntity<Unit> {
-        user?.run { deleteUserUsecase(UserId(xUserId), converter.toEntity(user)) }
+        deleteUserUsecase(UserId(xUserId), converter.toEntity(user!!))
         return ResponseEntity(HttpStatus.OK)
     }
 
     /**
      * ユーザー取得.
      */
-    override fun postUserGet(xUserId: kotlin.String, user: User?): ResponseEntity<User> {
-        val res = getUserUsecase(
-            UserId(xUserId),
-            UserId(user?.userId ?: throw NotFoundException("request"))
-        )?.let {
-            converter.toResponse(it)
-        }
+    override fun postUserGet(
+        xUserId: kotlin.String,
+        inlineObject: InlineObject?
+    ): ResponseEntity<User> {
+        val res =
+            getUserUsecase(UserId(xUserId), UserId(inlineObject!!.userId))
+                ?.let {
+                    converter.toResponse(it)
+                }
+
+
         return ResponseEntity(res, HttpStatus.OK)
     }
 
@@ -65,16 +63,22 @@ class UserApiDelegateImpl(
      */
     override fun postUserList(
         xUserId: kotlin.String,
-        inlineObject3: InlineObject3?
+        inlineObject4: InlineObject4?
     ): ResponseEntity<InlineResponse2001> {
+        val offset = inlineObject4!!.pageable.offset
+        val limit = inlineObject4!!.pageable.limit
         val res =
             listUserUsecase(
                 UserId(xUserId),
-                inlineObject3?.pageable?.offset ?: 0,
-                inlineObject3?.pageable?.limit ?: 10
+                offset,
+                limit
             ).let {
                 InlineResponse2001(
-                    nextPage = pageableHelper.getNextPage(inlineObject3?.pageable, it.total),
+                    pageable = PageableResponse(
+                        offset = offset,
+                        limit = limit,
+                        total = it.total
+                    ),
                     users = it.entitys.map(converter::toResponse).toList()
                 )
             }
@@ -86,7 +90,7 @@ class UserApiDelegateImpl(
      * ユーザー更新.
      */
     override fun postUserUpdated(xUserId: kotlin.String, user: User?): ResponseEntity<Unit> {
-        user?.run { updateUserUsecase(UserId(xUserId), converter.toEntity(user)) }
+        updateUserUsecase(UserId(xUserId), converter.toEntity(user!!))
         return ResponseEntity(HttpStatus.OK)
 
     }
