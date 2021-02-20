@@ -26,15 +26,41 @@
 
 > http://localhost:8080/swagger-ui.html
 
-### クラス構成
+### アーキテクチャ
 
-- chigirh.app.todo.be.todoapi.web:web layer
-- chigirh.app.todo.be.todoapi.applicationapplication layer
-- chigirh.app.todo.be.todoapi.domain:domain layer
-- chigirh.app.todo.be.todoapi.infra:infrastracture layer
+#### パッケージ構成
 
-#### 以下自動生成(コミット禁止)
+クリーンアーキテクチャを採用
 
-- 起動クラス - chigirh.app.todo.be.todoapi.Application
-- OpenAPI自動生成 - chigirh.app.todo.be.todoapi.oas3
-- MybatisGenerator自動生成 - /todo-api/src/gen
+```
+todo-api
+  ├─src/main/gen //自動生成ディレクトリ
+  │  ├─chigirh.app.todo.be.todoapi.infra //Infrastracture Layer
+  │  │  ├─dto //MybatisGeneator Model
+  │  │  └─mapper //MybatisGeneator Mapper interface
+  │  └─resources //MybatisGeneator MapperXml
+  └─src/main/kotlin
+     ├─chigirh.app.todo.be.todoapi
+     │  ├─application //Application Layer
+     │  │  ├─repository //Repository intercafe
+     │  │  ├─service //Service
+     │  │  └─usecase //Usecase
+     │  ├─domain //domain Layer
+     │  │  ├─constant //const
+     │  │  ├─exception //Exception
+     │  │  └─model  // EntityModel
+     │  ├─infra　//Infrastracture Layer
+     │  │  ├─dto.result //Mybatis Model
+     │  │  ├─mapper //Mybatis Mapper interface
+     │  │  └─repository //Repisitory Impl
+     │  └─web //Webレイヤー
+     │    ├─api //Controller
+     │    ├─common //共通処理
+     │    ├─core //configu,aop,handler　
+     │    └─converter //modelとentityのコンバーター
+     └─resources
+       ├─kotlin.chigirh.app.todo.be.todoapi.infr.mapper //Mybatis MapperXML
+       ├─db/migration //sql ddl
+       ├─static //
+       └─templates //html template
+```

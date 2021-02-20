@@ -1,4 +1,4 @@
-package chigirh.app.todo.be.todoapi.web.conf
+package chigirh.app.todo.be.todoapi.web.core
 
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.AfterReturning
@@ -11,15 +11,15 @@ import java.util.*
 
 @Component
 @Aspect
-class UsecaseLogInterceptor {
-    @Before("execution(* chigirh.app.todo.be.todoapi.application.usecase.*..*Usecase.invoke(..))")
+class RepositoryLogInterceptor {
+    @Before("execution(* chigirh.app.todo.be.todoapi.application.repository.*..*Repository.*(..))")
     fun usecaseStartLog(joinPoint: JoinPoint) {
         val string = joinPoint.toString()
         val args: String = Arrays.toString(joinPoint.args)
         logger.info("Start {}, args: {}", string, args.toString())
     }
 
-    @AfterReturning("execution(* chigirh.app.todo.be.todoapi.application.usecase.*..*Usecase.invoke(..))")
+    @AfterReturning("execution(* chigirh.app.todo.be.todoapi.application.repository.*..*Repository.*(..))")
     fun usecasellerEndLog(joinPoint: JoinPoint) {
         val string = joinPoint.toString()
         val args: String = Arrays.toString(joinPoint.args)
@@ -27,7 +27,7 @@ class UsecaseLogInterceptor {
     }
 
     companion object {
-        private val logger: Logger = LoggerFactory.getLogger(UsecaseLogInterceptor::class.java)
+        private val logger: Logger = LoggerFactory.getLogger(RepositoryLogInterceptor::class.java)
     }
 
 }

@@ -1,4 +1,4 @@
-package chigirh.app.todo.be.todoapi.web.conf
+package chigirh.app.todo.be.todoapi.web.core
 
 import com.google.common.collect.Sets.newHashSet
 import org.springframework.context.annotation.Bean
