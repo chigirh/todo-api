@@ -1,4 +1,4 @@
-package chigirh.app.todo.be.todoapi.web.common
+package chigirh.app.todo.be.todoapi.web.api.helper
 
 import chigirh.app.todo.be.todoapi.oas3.model.Pageable
 import org.springframework.stereotype.Component

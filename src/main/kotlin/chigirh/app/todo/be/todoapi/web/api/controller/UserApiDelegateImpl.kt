@@ -1,4 +1,4 @@
-package chigirh.app.todo.be.todoapi.web.api
+package chigirh.app.todo.be.todoapi.web.api.controller
 
 import chigirh.app.todo.be.todoapi.application.usecase.user.*
 import chigirh.app.todo.be.todoapi.domain.constant.UserConstant
@@ -9,8 +9,8 @@ import chigirh.app.todo.be.todoapi.oas3.model.InlineObject3
 import chigirh.app.todo.be.todoapi.oas3.model.InlineResponse2001
 import chigirh.app.todo.be.todoapi.oas3.model.User
 import chigirh.app.todo.be.todoapi.oas3.model.UserDetail
-import chigirh.app.todo.be.todoapi.web.common.PageableHelper
-import chigirh.app.todo.be.todoapi.web.converter.UserConverter
+import chigirh.app.todo.be.todoapi.web.api.converter.UserConverter
+import chigirh.app.todo.be.todoapi.web.api.helper.PageableHelper
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component

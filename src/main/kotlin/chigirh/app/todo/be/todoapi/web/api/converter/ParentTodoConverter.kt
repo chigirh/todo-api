@@ -1,14 +1,15 @@
-package chigirh.app.todo.be.todoapi.web.converter
+package chigirh.app.todo.be.todoapi.web.api.converter
 
 import chigirh.app.todo.be.todoapi.domain.model.todo.ParentTodoEntity
 import chigirh.app.todo.be.todoapi.domain.model.vo.TodoId
 import chigirh.app.todo.be.todoapi.domain.model.vo.Version
 import chigirh.app.todo.be.todoapi.oas3.model.ParentTodo
 import chigirh.app.todo.be.todoapi.oas3.model.TodoDetail
-import org.springframework.stereotype.Component
+import chigirh.app.todo.be.todoapi.web.converter.Converter
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
+import org.springframework.stereotype.Component
 
 @Component
 class ParentTodoConverter(

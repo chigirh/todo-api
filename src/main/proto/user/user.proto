@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "chigirh.app.todo.be.sample.grpc.model";
+
+import "common/common.proto";
+
+package todo.user;
+
+message User{
+  string user_id = 1;
+  common.Version version = 2;
+}
+
+message UserDetail{
+  string userName = 1;
+}

@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "chigirh.app.todo.be.todoapi.grpc.service";
+
+package todo.user;
+
+import "google/protobuf/empty.proto";
+import "user/user.proto";
+
+service SampleService {
+
+  rpc CreateUser (CreateUserRequest) returns (google.protobuf.Empty);
+
+  rpc DeleteUser (DeleteUserRequest) returns (stream google.protobuf.Empty);
+
+  rpc GetUser (stream GetUserRequest) returns (GetUserResponse);
+
+  rpc UpdateUser (stream UpdateUserRequest) returns (stream google.protobuf.Empty);
+
+  rpc ListUser (stream ListUserRequest) returns (stream ListUserResponse);
+}
+
+message CreateUserRequest{
+  UserDetail user_detail = 1;
+}
+
+message DeleteUserRequest{
+  User user = 1;
+}
+
+message GetUserRequest{
+  User user = 1;
+}
+
+message GetUserResponse{
+  User user = 1;
+}
+
+message UpdateUserRequest{
+  User user = 1;
+}
+
+message ListUserRequest{
+  User user = 1;
+}
+
+message ListUserResponse{
+  User user = 1;
+}

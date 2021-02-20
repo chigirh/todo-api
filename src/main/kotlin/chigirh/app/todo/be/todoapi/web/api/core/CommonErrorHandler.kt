@@ -1,4 +1,4 @@
-package chigirh.app.todo.be.todoapi.web.core
+package chigirh.app.todo.be.todoapi.web.api.core
 
 import chigirh.app.todo.be.todoapi.domain.exception.ConflictException
 import chigirh.app.todo.be.todoapi.domain.exception.InternalException

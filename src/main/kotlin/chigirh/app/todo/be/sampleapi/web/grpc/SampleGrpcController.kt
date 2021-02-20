@@ -1,4 +1,4 @@
-package chigirh.app.todo.be.sampleapi.web.protobuf
+package chigirh.app.todo.be.sampleapi.web.grpc
 
 import chigirh.app.todo.be.sample.grpc.model.Sample
 import chigirh.app.todo.be.sample.grpc.service.*

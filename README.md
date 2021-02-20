@@ -56,7 +56,7 @@ todo-api
   │     └─mapper //MybatisGeneator Mapper interface
   ├─src/main
   │  ├─kotlin
-  │  │  ├─chigirh.app.todo.be.todoapi
+  │  │  ├─chigirh.app.todo.be
   │  │  │ └─todoapi 
   │  │  │    ├─application //Application Layer
   │  │  │    │  ├─repository //Repository intercafe
