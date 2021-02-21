@@ -479,7 +479,7 @@ paths:
                   users:
                     type: array
                     items:
-                      $ref: ''
+                      $ref: '#/components/schemas/User'
                 required:
                   - pageable
       description: ユーザー一覧を取得
