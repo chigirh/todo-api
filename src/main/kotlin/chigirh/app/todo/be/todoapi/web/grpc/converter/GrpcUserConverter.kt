@@ -1,11 +1,11 @@
 package chigirh.app.todo.be.todoapi.web.grpc.converter
 
-import chigirh.app.todo.be.sample.grpc.model.User
-import chigirh.app.todo.be.sample.grpc.model.UserDetail
 import chigirh.app.todo.be.todoapi.domain.constant.UserConstant
 import chigirh.app.todo.be.todoapi.domain.model.user.UserEntity
 import chigirh.app.todo.be.todoapi.domain.model.vo.UserId
 import chigirh.app.todo.be.todoapi.domain.model.vo.Version
+import chigirh.app.todo.be.todoapi.grpc.model.User
+import chigirh.app.todo.be.todoapi.grpc.model.UserDetail
 import chigirh.app.todo.be.todoapi.web.converter.EntityConverter
 import org.springframework.stereotype.Component
 

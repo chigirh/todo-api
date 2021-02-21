@@ -11,10 +11,12 @@ import chigirh.app.todo.be.todoapi.web.grpc.converter.GrpcVersionConverter
 import chigirh.app.todo.be.todoapi.web.grpc.converter.GrpcXUserIdConverter
 import com.google.protobuf.Empty
 import io.grpc.stub.StreamObserver
+import org.lognet.springboot.grpc.GRpcService
 
 /**
  * gRPC UserService.
  */
+@GRpcService
 class UserService(
     val grpcUserConverter: GrpcUserConverter,
     val grpcVersionConverter: GrpcVersionConverter,

@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "chigirh.app.todo.be.sample.grpc.model";
+option java_package = "chigirh.app.todo.be.todoapi.grpc.model";
 
 import "common/common.proto";
 
