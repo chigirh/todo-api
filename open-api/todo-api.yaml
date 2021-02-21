@@ -141,12 +141,15 @@ paths:
             schema:
               type: object
               properties:
-                user:
-                  $ref: '#/components/schemas/User'
+                userId:
+                  type: string
+                  pattern: '^U[0-9]{5}$'
+                  minLength: 6
+                  maxLength: 6
                 pageable:
                   $ref: '#/components/schemas/PageableRequest'
               required:
-                - user
+                - userId
                 - pageable
       parameters:
         - schema:

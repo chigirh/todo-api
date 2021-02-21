@@ -2,6 +2,7 @@ package chigirh.app.todo.be.todoapi.web.api.controller
 
 import chigirh.app.todo.be.todoapi.application.usecase.user.*
 import chigirh.app.todo.be.todoapi.domain.constant.UserConstant
+import chigirh.app.todo.be.todoapi.domain.exception.NotFoundException
 import chigirh.app.todo.be.todoapi.domain.model.vo.UserId
 import chigirh.app.todo.be.todoapi.oas3.controller.UserApiDelegate
 import chigirh.app.todo.be.todoapi.oas3.model.*
@@ -53,6 +54,7 @@ class UserApiDelegateImpl(
                 ?.let {
                     converter.toResponse(it)
                 }
+                ?: throw NotFoundException("userId", inlineObject!!.userId)
 
 
         return ResponseEntity(res, HttpStatus.OK)

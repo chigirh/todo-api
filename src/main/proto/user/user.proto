@@ -5,13 +5,14 @@ option java_package = "chigirh.app.todo.be.sample.grpc.model";
 
 import "common/common.proto";
 
-package todo.user;
+package todoapi.user;
 
 message User{
   string user_id = 1;
-  common.Version version = 2;
+  UserDetail detail = 2;
+  common.Version version = 3;
 }
 
 message UserDetail{
-  string userName = 1;
+  string user_name = 1;
 }

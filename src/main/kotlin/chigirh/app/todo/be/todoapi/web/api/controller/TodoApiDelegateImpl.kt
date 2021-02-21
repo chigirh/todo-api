@@ -97,9 +97,7 @@ class TodoApiDelegateImpl(
         val offset = inlineObject1!!.pageable.offset ?: 0
         val limit = inlineObject1!!.pageable.limit ?: 10
         val res = listTodoUsecase(
-            UserId(
-                inlineObject1!!.user.userId
-            ),
+            UserId(inlineObject1!!.userId),
             offset,
             limit
         ).let {

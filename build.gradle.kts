@@ -67,6 +67,7 @@ dependencies {
     //spring
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-aop")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("io.github.lognet:grpc-spring-boot-starter:4.4.4")
     //mybatis
     implementation("org.postgresql:postgresql:42.2.18")

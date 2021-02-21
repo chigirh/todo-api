@@ -5,7 +5,7 @@ import chigirh.app.todo.be.todoapi.domain.model.vo.TodoId
 import chigirh.app.todo.be.todoapi.domain.model.vo.Version
 import chigirh.app.todo.be.todoapi.oas3.model.ParentTodo
 import chigirh.app.todo.be.todoapi.oas3.model.TodoDetail
-import chigirh.app.todo.be.todoapi.web.converter.Converter
+import chigirh.app.todo.be.todoapi.web.converter.EntityConverter
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 @Component
 class ParentTodoConverter(
     val childTodoConverter: ChildTodoConverter
-) : Converter<ParentTodoEntity, ParentTodo, ParentTodo> {
+) : EntityConverter<ParentTodoEntity, ParentTodo, ParentTodo> {
     override fun toResponse(entity: ParentTodoEntity) = entity.let {
         ParentTodo(
             todoId = it.todoId.v,

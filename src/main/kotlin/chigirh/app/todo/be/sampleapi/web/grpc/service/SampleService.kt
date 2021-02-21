@@ -1,4 +1,4 @@
-package chigirh.app.todo.be.sampleapi.web.grpc
+package chigirh.app.todo.be.sampleapi.web.grpc.service
 
 import chigirh.app.todo.be.sample.grpc.model.Sample
 import chigirh.app.todo.be.sample.grpc.service.*
@@ -16,7 +16,7 @@ import chigirh.app.todo.be.sample.grpc.service.Operation as GrpcOperation
 import chigirh.app.todo.be.sampleapi.domain.model.Operation as DomainOperation
 
 @GRpcService
-class SampleGrpcController(
+class SampleService(
     val calculationUsecase: CalculationUsecase
 ) : SampleServiceGrpc.SampleServiceImplBase() {
     /**

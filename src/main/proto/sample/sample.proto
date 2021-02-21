@@ -5,7 +5,7 @@ option java_package = "chigirh.app.todo.be.sample.grpc.model";
 
 import "google/protobuf/timestamp.proto";
 
-package sample;
+package sampleapi;
 
 message Sample{
   SampleId sample_id = 1;

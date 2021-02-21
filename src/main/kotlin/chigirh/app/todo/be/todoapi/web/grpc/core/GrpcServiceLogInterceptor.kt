@@ -1,5 +1,6 @@
-package chigirh.app.todo.be.todoapi.web.core
+package chigirh.app.todo.be.todoapi.web.grpc.core
 
+import java.util.Arrays
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.AfterReturning
 import org.aspectj.lang.annotation.Aspect
@@ -7,27 +8,26 @@ import org.aspectj.lang.annotation.Before
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
-import java.util.*
 
 @Component
 @Aspect
-class ControllerLogInterceptor {
-    @Before("within(chigirh.app.todo.be.todoapi.oas3.controller.*Controller)")
+class GrpcServiceLogInterceptor {
+    @Before("within(chigirh.app.todo.be.todoapi.web.grpc.service.*Service)")
     fun controllerStartLog(joinPoint: JoinPoint) {
         val string = joinPoint.toString()
         val args: String = Arrays.toString(joinPoint.args)
-        logger.info("Start {}, args: {}", string, args.toString())
+        logger.info("[gRPC]Start {}, args: {}", string, args.toString())
     }
 
-    @AfterReturning("within(chigirh.app.todo.be.todoapi.oas3.controller.*Controller)")
+    @AfterReturning("within(chigirh.app.todo.be.todoapi.web.grpc.service.*Service)")
     fun controllerEndLog(joinPoint: JoinPoint) {
         val string = joinPoint.toString()
         val args: String = Arrays.toString(joinPoint.args)
-        logger.info("End {}, args: {}", string, args.toString())
+        logger.info("[gRPC]End {}, args: {}", string, args.toString())
     }
 
     companion object {
-        private val logger: Logger = LoggerFactory.getLogger(ControllerLogInterceptor::class.java)
+        private val logger: Logger = LoggerFactory.getLogger(GrpcServiceLogInterceptor::class.java)
     }
 
 }

@@ -1,9 +1,6 @@
 package chigirh.app.todo.be.todoapi.web.api.core
 
-import chigirh.app.todo.be.todoapi.domain.exception.ConflictException
-import chigirh.app.todo.be.todoapi.domain.exception.InternalException
-import chigirh.app.todo.be.todoapi.domain.exception.InvalidArgumentException
-import chigirh.app.todo.be.todoapi.domain.exception.NotFoundException
+import chigirh.app.todo.be.todoapi.domain.exception.*
 import chigirh.app.todo.be.todoapi.oas3.model.ErrorDetail
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -12,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 
 @ControllerAdvice
-class CommonErrorHandler : ResponseEntityExceptionHandler() {
+class ApiErrorHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(NotFoundException::class)
     fun handleNotFoundException(exception: NotFoundException): ResponseEntity<chigirh.app.todo.be.todoapi.oas3.model.Error> {
         val errorResponse = chigirh.app.todo.be.todoapi.oas3.model.Error(
@@ -86,6 +83,21 @@ class CommonErrorHandler : ResponseEntityExceptionHandler() {
         )
         exception.printStackTrace()
         return ResponseEntity(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+
+    @ExceptionHandler(NotImplementedException::class)
+    fun handleConflictException(exception: NotImplementedException): ResponseEntity<chigirh.app.todo.be.todoapi.oas3.model.Error> {
+        val errorResponse = chigirh.app.todo.be.todoapi.oas3.model.Error(
+            errorCode = HttpStatus.NOT_IMPLEMENTED.toString(),
+            details = listOf(
+                ErrorDetail(
+                    target = "UNKNOWN ERROR",
+                    description = ""
+                )
+            )
+        )
+        exception.printStackTrace()
+        return ResponseEntity(errorResponse, HttpStatus.NOT_IMPLEMENTED)
     }
 
 }

@@ -3,22 +3,24 @@ syntax = "proto3";
 option java_multiple_files = true;
 option java_package = "chigirh.app.todo.be.todoapi.grpc.service";
 
-package todo.user;
+package todoapi.user;
 
 import "google/protobuf/empty.proto";
-import "user/user.proto";
 
-service SampleService {
+import "user/user.proto";
+import "common/common.proto";
+
+service UserService {
 
   rpc CreateUser (CreateUserRequest) returns (google.protobuf.Empty);
 
-  rpc DeleteUser (DeleteUserRequest) returns (stream google.protobuf.Empty);
+  rpc DeleteUser (DeleteUserRequest) returns (google.protobuf.Empty);
 
-  rpc GetUser (stream GetUserRequest) returns (GetUserResponse);
+  rpc GetUser (GetUserRequest) returns (GetUserResponse);
 
-  rpc UpdateUser (stream UpdateUserRequest) returns (stream google.protobuf.Empty);
+  rpc UpdateUser (UpdateUserRequest) returns (google.protobuf.Empty);
 
-  rpc ListUser (stream ListUserRequest) returns (stream ListUserResponse);
+  rpc ListUser (ListUserRequest) returns (ListUserResponse);
 }
 
 message CreateUserRequest{
@@ -27,10 +29,12 @@ message CreateUserRequest{
 
 message DeleteUserRequest{
   User user = 1;
+  common.XUserId x_user_id = 2;
 }
 
 message GetUserRequest{
-  User user = 1;
+  string user_id = 1;
+  common.XUserId x_user_id = 2;
 }
 
 message GetUserResponse{
@@ -39,12 +43,15 @@ message GetUserResponse{
 
 message UpdateUserRequest{
   User user = 1;
+  common.XUserId x_user_id = 2;
 }
 
 message ListUserRequest{
-  User user = 1;
+  common.PageableRequest pageable = 1;
+  common.XUserId x_user_id = 2;
 }
 
 message ListUserResponse{
-  User user = 1;
+  common.PageableResponse pageable = 1;
+  repeated User users = 2;
 }

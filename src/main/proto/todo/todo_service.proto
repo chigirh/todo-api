@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "chigirh.app.todo.be.todoapi.grpc.service";
+
+package todoapi.todo;
+
+import "google/protobuf/empty.proto";
+
+import "todo/todo.proto";
+import "common/common.proto";
+
+service TodoService {
+
+  rpc ListTodo (ListTodoRequest) returns (ListTodoResponse);
+
+  rpc CreateParentTodo (CreateParentTodoRequest) returns (google.protobuf.Empty);
+
+  rpc CreateChildTodo (CreateChildTodoRequest) returns (google.protobuf.Empty);
+
+  rpc UpdateParentTodo (UpdateParentTodoRequest) returns (google.protobuf.Empty);
+
+  rpc UpdateChildTodo (UpdateChildTodoRequest) returns (google.protobuf.Empty);
+
+  rpc DeleteParentTodo (DeleteParentTodoRequest) returns (google.protobuf.Empty);
+
+  rpc DeleteChildTodo (DeleteChildTodoRequest) returns (google.protobuf.Empty);
+
+  rpc FinishTodo (FinishTodoRequest) returns (google.protobuf.Empty);
+
+}
+
+message ListTodoRequest{
+  string user_id = 1;
+  common.PageableRequest pageable = 2;
+  common.XUserId x_user_id = 3;
+}
+
+message ListTodoResponse{
+  common.PageableResponse pageable = 1;
+  repeated ParentTodo todos = 2;
+}
+
+message CreateParentTodoRequest{
+  TodoDetail todo_detail = 1;
+  common.XUserId x_user_id = 2;
+}
+
+message CreateChildTodoRequest{
+  TodoDetail todo_detail = 1;
+  string parent_todo_id = 2;
+  common.XUserId x_user_id = 3;
+}
+
+message UpdateParentTodoRequest{
+  ParentTodo parent_todo = 1;
+  common.XUserId x_user_id = 2;
+}
+
+message UpdateChildTodoRequest{
+  ChildTodo child_todo = 1;
+  common.XUserId x_user_id = 2;
+}
+
+message DeleteParentTodoRequest{
+  ParentTodo parent_todo = 1;
+  common.XUserId x_user_id = 2;
+}
+
+message DeleteChildTodoRequest{
+  ChildTodo child_todo = 1;
+  common.XUserId x_user_id = 2;
+}
+
+message FinishTodoRequest{
+  string todo_id = 1;
+  TodoType todo_type = 2;
+  bool is_finished = 3;
+  common.XUserId x_user_id = 4;
+}
