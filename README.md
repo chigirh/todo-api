@@ -36,10 +36,10 @@
 
 #### gRPC疎通
 
-> cd grpc
-> evans.exe --host localhost --port 6565 -r repl
-> package sample
-> service SampleService
+> cd grpc  
+> evans.exe --host localhost --port 6565 -r repl  
+> package sample  
+> service SampleService  
 > call メソッド名
 
 ### アーキテクチャ
