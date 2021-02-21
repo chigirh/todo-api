@@ -36,10 +36,10 @@
 
 #### gRPC疎通
 
-> cd grpc
-> evans.exe --host localhost --port 6565 -r repl
-> package sample
-> service SampleService
+> cd grpc  
+> evans.exe --host localhost --port 6565 -r repl  
+> package sample  
+> service SampleService  
 > call メソッド名
 
 ### アーキテクチャ
@@ -86,7 +86,9 @@ todo-api
   │  └─resources
   │    ├─kotlin/chigirh/app/todo/be/todoapi/infr/mapper //Mybatis MapperXML.
   │    ├─db/migration //sql ddl.
-  │    ├─static //
+  │    ├─META-INF // Spring Bean定義.
+  │    │  ├─validation // BeanValidator.
+  │    │  └─validation.xml //Validation config.
   │    └─templates //html template.
   └─build/generated //自動生成(コミット禁止)
     ├─openapi　//OpenAPI.
