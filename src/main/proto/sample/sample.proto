@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "chigirh.app.todo.be.sample.grpc.model";
+
+import "google/protobuf/timestamp.proto";
+
+package sampleapi;
+
+message Sample{
+  SampleId sample_id = 1;
+  SampleId sample_id2 = 2[deprecated = true];
+  repeated SampleId sample_ids = 3;
+  google.protobuf.Timestamp timestamp = 4;
+  reserved 5, 6;
+  int32 sample_num = 7;
+  bool sample_bool = 8;
+  SampleType sample_type = 9;
+}
+
+message SampleId{
+  string v = 1;
+}
+
+enum SampleType{
+  TYPE_1 = 0;
+  TYPE_2 = 1;
+}
+

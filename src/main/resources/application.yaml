@@ -8,6 +8,10 @@ spring:
     username: root
     password: root
 
+grpc:
+  port: 6565
+  enableReflection: true
+
 mybatis:
   type-aliases-package: chigirh.app.todo.be.todoapi.infra.dto.result
   mapperInterface: chigirh.app.todo.be.todoapi.infra.mapper

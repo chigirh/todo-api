@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "chigirh.app.todo.be.todoapi.grpc.model";
+
+
+package todoapi.common;
+
+message  XUserId{
+  string x_user_id = 1;
+}
+
+message Version{
+  int32 version = 1;
+}
+
+message PageableRequest{
+  int32 offset = 1;
+  int32 limit = 2;
+}
+
+message PageableResponse{
+  int32 offset = 1;
+  int32 limit = 2;
+  int32 total = 3;
+}

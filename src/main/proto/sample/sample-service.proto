@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "chigirh.app.todo.be.sample.grpc.service";
+
+package sampleapi;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "sample/sample.proto";
+
+//https://qiita.com/disc99/items/3fdfe5c1c1170871221a
+service SampleService {
+  //Unary RPC
+  rpc SampleUnaryMethod (SampleRequest) returns (SampleResponse);
+
+  // Server streaming RPC
+  rpc SampleServerStreamingMethod (google.protobuf.Empty) returns (stream ServerStreamingResponse);
+
+  // Client streaming RPC
+  rpc SampleClientStreamingMethod (stream ClientStreamingRequest) returns (ClientStreamingResponse);
+
+  // Bidirectional streaming RPC
+  rpc SampleBidirectionalStreamingMethod (stream ClientStreamingRequest) returns (stream ClientStreamingResponse);
+}
+
+message SampleRequest {
+  Sample sample = 1;
+}
+
+message SampleResponse {
+  Sample sample = 1;
+}
+
+message ServerStreamingResponse{
+  google.protobuf.Timestamp timestamp = 1;
+}
+
+message ClientStreamingRequest{
+  int32 num = 1;
+  Operation operator = 2;
+}
+
+message ClientStreamingResponse{
+  int32 total = 1;
+}
+
+enum Operation{
+  ADD = 0;
+  SUB = 1;
+  MUL = 2;
+  DIV = 3;
+}
