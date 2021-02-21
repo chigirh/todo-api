@@ -144,6 +144,11 @@ class SampleService(
         }
     }
 
+    override fun sampleEchoMethod(request: SampleEcho, responseObserver: StreamObserver<SampleEcho>) {
+        responseObserver.onNext(request)
+        responseObserver.onCompleted()
+    }
+
     private fun operationValueOf(operation: GrpcOperation) = when (operation) {
         GrpcOperation.ADD -> {
             DomainOperation.ADD

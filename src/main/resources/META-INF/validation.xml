@@ -9,6 +9,8 @@
     <constraint-mapping>META-INF/validation/constraints-user.xml</constraint-mapping>
     <constraint-mapping>META-INF/validation/constraints-user-service.xml</constraint-mapping>
 
+    <constraint-mapping>META-INF/validation/constraints-sample-service.xml</constraint-mapping>
+
     <property name="hibernate.validator.fail_fast">false</property>
 
 </validation-config>

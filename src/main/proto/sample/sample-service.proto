@@ -22,6 +22,9 @@ service SampleService {
 
   // Bidirectional streaming RPC
   rpc SampleBidirectionalStreamingMethod (stream ClientStreamingRequest) returns (stream ClientStreamingResponse);
+
+  // Echo
+  rpc SampleEchoMethod (SampleEcho) returns (SampleEcho);
 }
 
 message SampleRequest {
@@ -45,9 +48,16 @@ message ClientStreamingResponse{
   int32 total = 1;
 }
 
+message SampleEcho {
+  repeated string value = 1;
+  repeated int32  number = 2;
+}
+
+
 enum Operation{
   ADD = 0;
   SUB = 1;
   MUL = 2;
   DIV = 3;
 }
+
